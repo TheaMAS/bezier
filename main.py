@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib as mpl
 from matplotlib import pyplot as plt
+from colour import Color
 
 
 def get_t_points(points,t):
@@ -47,11 +48,30 @@ def bezier(points, num):
     plt.show()
     #plt.savefig(str(num) + ".png")
 
+def bezier2(points, num):
+    x, y = [], []
+    fix, ax = plt.subplots()
+
+    for increment in range(num):
+        points[len(points)-1][1] = points[len(points)-1][1]-.2
+
+        t = np.linspace(0, 1, 100)
+        for i in t:
+            temp_points = points
+            while(len(temp_points) > 2):
+                temp_points = get_t_points(temp_points, i)
+                #print(temp_points)
+            temp_x, temp_y = return_as_pair(get_t_point(temp_points[0],temp_points[1],i))
+            x.append(temp_x)
+            y.append(temp_y)
+        ax.set_title("Bezier Curve with points " + str(points))
+        ax.plot(x, y)
+    plt.show() 
+
 
 
 
 if __name__ == '__main__':
-
-    for i in range(10):
-        points = [[10,10], [11,12+i], [13-i,10], [11,15]]
-        bezier(points, i)
+    points = [[10,10], [11,12], [1,2], [2,3], [13,10], [11,15]]
+    bezier2(points, 1)
+    #bezier(points, i)
